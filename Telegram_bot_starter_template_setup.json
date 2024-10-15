@@ -20,7 +20,7 @@
     },
     {
       "parameters": {
-        "chatId": "={{ $('Telegram Trigger').item.json.message.from.id }}",
+        "chatId": "={{ $json[\"message\"].from.id }}",
         "text": "Photo"
       },
       "id": "telegram-photo",
@@ -37,50 +37,28 @@
     },
     {
       "parameters": {
-        "rules": {
-          "values": [
-            {
-              "conditions": {
-                "options": {
-                  "caseSensitive": true
-                },
-                "conditions": [
-                  {
-                    "operator": {
-                      "type": "string",
-                      "operation": "contains"
-                    },
-                    "leftValue": "={{ $('Telegram Trigger').item.json.message.text }}",
-                    "rightValue": "/command1"
-                  }
-                ],
-                "combinator": "and"
-              },
-              "renameOutput": true,
-              "outputKey": "Command 1"
-            },
-            {
-              "conditions": {
-                "options": {
-                  "caseSensitive": true
-                },
-                "conditions": [
-                  {
-                    "operator": {
-                      "type": "string",
-                      "operation": "contains"
-                    },
-                    "leftValue": "={{ $('Telegram Trigger').item.json.message.text }}",
-                    "rightValue": "/command2"
-                  }
-                ],
-                "combinator": "and"
-              },
-              "renameOutput": true,
-              "outputKey": "Command 2"
-            }
-          ]
-        }
+        "rules": [
+          {
+            "conditions": [
+              {
+                "value1": "={{ $json[\"message\"].text }}",
+                "operation": "contains",
+                "value2": "/command1"
+              }
+            ],
+            "output": "Command 1"
+          },
+          {
+            "conditions": [
+              {
+                "value1": "={{ $json[\"message\"].text }}",
+                "operation": "contains",
+                "value2": "/command2"
+              }
+            ],
+            "output": "Command 2"
+          }
+        ]
       },
       "id": "switch-commands",
       "name": "Command Switch",
@@ -90,7 +68,7 @@
     },
     {
       "parameters": {
-        "chatId": "={{ $('Telegram Trigger').item.json.message.from.id }}",
+        "chatId": "={{ $json[\"message\"].from.id }}",
         "text": "Unknown Command"
       },
       "id": "unknown-command",
@@ -107,7 +85,7 @@
     }
   ],
   "connections": {
-    "Telegram Trigger": {
+    "trigger-node": {
       "main": [
         [
           {
