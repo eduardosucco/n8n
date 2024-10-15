@@ -1,0 +1,67 @@
+{
+  "parameters": {
+    "rules": {
+      "values": [
+        {
+          "conditions": {
+            "options": {
+              "caseSensitive": true,
+              "leftValue": "",
+              "typeValidation": "strict",
+              "version": 1
+            },
+            "conditions": [
+              {
+                "id": "546c81bf-2ee0-46b2-847b-1f92b84efaf3",
+                "operator": {
+                  "type": "string",
+                  "operation": "contains"
+                },
+                "leftValue": "={{ $('Trigger').item.json.message.text }}",
+                "rightValue": "/status"
+              }
+            ],
+            "combinator": "and"
+          },
+          "renameOutput": true,
+          "outputKey": "Status"
+        },
+        {
+          "conditions": {
+            "options": {
+              "caseSensitive": true,
+              "leftValue": "",
+              "typeValidation": "strict",
+              "version": 1
+            },
+            "conditions": [
+              {
+                "id": "546c81bf-2ee0-46b2-847b-1f92b84efaf3",
+                "operator": {
+                  "type": "string",
+                  "operation": "contains"
+                },
+                "leftValue": "={{ $('Trigger').item.json.message.text }}",
+                "rightValue": "/help"
+              }
+            ],
+            "combinator": "and"
+          },
+          "renameOutput": true,
+          "outputKey": "Help"
+        }
+      ]
+    },
+    "options": {
+      "fallbackOutput": "extra"
+    }
+  },
+  "id": "58008f10-7336-4633-ab15-51556e3b53bd",
+  "name": "Switch_Commands",
+  "type": "n8n-nodes-base.switch",
+  "position": [
+    2080,
+    -1380
+  ],
+  "typeVersion": 3
+}
