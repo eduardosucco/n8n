@@ -7,8 +7,7 @@
     {
       "parameters": {
         "httpMethod": "POST",
-        "path": "telegram-webhook",
-        "options": {}
+        "path": "telegram-webhook"
       },
       "id": "webhook-node",
       "name": "Webhook",
@@ -36,8 +35,7 @@
       "name": "Set Data",
       "type": "n8n-nodes-base.set",
       "typeVersion": 1,
-      "position": [-800, -2740],
-      "alwaysOutputData": true
+      "position": [-800, -2740]
     },
     {
       "parameters": {
