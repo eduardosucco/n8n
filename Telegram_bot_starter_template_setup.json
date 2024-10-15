@@ -1,5 +1,5 @@
 {
-  "name": "Meu bot Telegram - Simplificado",
+  "name": "Meu bot Telegram (Ajustado)",
   "nodes": [
     {
       "parameters": {
@@ -26,44 +26,48 @@
     },
     {
       "parameters": {
-        "conditions": {
-          "options": {
-            "caseSensitive": true,
-            "leftValue": "",
-            "typeValidation": "strict",
-            "version": 1
-          },
-          "conditions": [
+        "rules": {
+          "values": [
             {
-              "operator": {
-                "type": "boolean",
-                "operation": "true",
-                "singleValue": true
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "typeValidation": "strict"
+                },
+                "conditions": [
+                  {
+                    "operator": {
+                      "type": "boolean",
+                      "operation": "true",
+                      "singleValue": true
+                    },
+                    "leftValue": "={{ $('Trigger').item.json.message.hasOwnProperty('text') }}"
+                  }
+                ],
+                "combinator": "and"
               },
-              "leftValue": "={{ $('Trigger').item.json.message.hasOwnProperty('text') }}"
+              "renameOutput": true,
+              "outputKey": "Text"
             }
-          ],
-          "combinator": "and"
+          ]
         },
         "options": {}
       },
-      "id": "updated-if-node",
-      "name": "IF_MessageType",
-      "type": "n8n-nodes-base.if",
+      "id": "0b597db9-d240-4be3-90f3-095117b1c6bc",
+      "name": "Switch_MessageType",
+      "type": "n8n-nodes-base.switch",
       "position": [
         480,
         -1120
       ],
-      "typeVersion": 1
+      "typeVersion": 3
     },
     {
       "parameters": {
         "conditions": {
           "options": {
             "caseSensitive": true,
-            "leftValue": "",
-            "typeValidation": "strict",
-            "version": 1
+            "typeValidation": "strict"
           },
           "conditions": [
             {
@@ -96,9 +100,7 @@
               "conditions": {
                 "options": {
                   "caseSensitive": true,
-                  "leftValue": "",
-                  "typeValidation": "strict",
-                  "version": 1
+                  "typeValidation": "strict"
                 },
                 "conditions": [
                   {
@@ -119,12 +121,171 @@
               "conditions": {
                 "options": {
                   "caseSensitive": true,
-                  "leftValue": "",
-                  "typeValidation": "strict",
-                  "version": 1
+                  "typeValidation": "strict"
                 },
                 "conditions": [
                   {
                     "operator": {
                       "type": "string",
-           
+                      "operation": "contains"
+                    },
+                    "leftValue": "={{ $('Trigger').item.json.message.text }}",
+                    "rightValue": "/status"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "/status"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "58008f10-7336-4633-ab15-51556e3b53bd",
+      "name": "Switch_Commands",
+      "type": "n8n-nodes-base.switch",
+      "position": [
+        1000,
+        -1120
+      ],
+      "typeVersion": 3
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $('Trigger').item.json.message.from.id }}",
+        "text": "Comandos",
+        "additionalFields": {
+          "appendAttribution": false
+        }
+      },
+      "id": "dd925066-f315-4f22-b0b0-ea182606d55b",
+      "name": "/Help",
+      "type": "n8n-nodes-base.telegram",
+      "position": [
+        1240,
+        -1280
+      ],
+      "typeVersion": 1.2,
+      "credentials": {
+        "telegramApi": {
+          "id": "7pqCdPnEXQvRtJUr",
+          "name": "Telegram account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $('Trigger').item.json.message.from.id }}",
+        "text": "Bot ativo!",
+        "additionalFields": {
+          "appendAttribution": false
+        }
+      },
+      "id": "7edecce3-6371-45ab-8dc1-f3e1a2052daa",
+      "name": "/Status",
+      "type": "n8n-nodes-base.telegram",
+      "position": [
+        1240,
+        -1000
+      ],
+      "typeVersion": 1.2,
+      "credentials": {
+        "telegramApi": {
+          "id": "7pqCdPnEXQvRtJUr",
+          "name": "Telegram account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $('Trigger').item.json.message.from.id }}",
+        "text": "Por enquanto estou aceitando apenas comandos.",
+        "additionalFields": {
+          "appendAttribution": false
+        }
+      },
+      "id": "a86fe429-65df-471b-bdcb-e4765b14f109",
+      "name": "Telegram4",
+      "type": "n8n-nodes-base.telegram",
+      "position": [
+        1240,
+        -840
+      ],
+      "typeVersion": 1.2,
+      "credentials": {
+        "telegramApi": {
+          "id": "7pqCdPnEXQvRtJUr",
+          "name": "Telegram account"
+        }
+      }
+    }
+  ],
+  "connections": {
+    "Trigger": {
+      "main": [
+        [
+          {
+            "node": "Switch_MessageType",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch_MessageType": {
+      "main": [
+        [
+          {
+            "node": "Command?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Command?": {
+      "main": [
+        [
+          {
+            "node": "Switch_Commands",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Telegram4",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch_Commands": {
+      "main": [
+        [
+          {
+            "node": "/Help",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "/Status",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "timezone": "America/Sao_Paulo",
+    "saveManualExecutions": true,
+    "callerPolicy": "workflowsFromSameOwner",
+    "executionOrder": "v0"
+  }
+}
