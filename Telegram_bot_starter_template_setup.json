@@ -1,243 +1,130 @@
 {
-  "meta": {
-    "instanceId": "9b8c11ec1d7722d48b6973dbf70400faa913ae64e46fef1f40a9b1d654824ea2"
-  },
-  "name": "Telegram Bot Setup",
+  "name": "Meu bot Telegram - Simplificado",
   "nodes": [
     {
       "parameters": {
-        "httpMethod": "POST",
-        "path": "telegram-webhook"
+        "updates": [
+          "*"
+        ],
+        "additionalFields": {}
       },
-      "id": "webhook-node",
-      "name": "Webhook",
-      "type": "n8n-nodes-base.webhook",
-      "typeVersion": 1,
-      "position": [-1320, -2740],
-      "webhookId": "11a93b6d-e9b1-4524-addc-a6708806a017"
+      "id": "5d9cf2ce-4808-4d44-9f0d-2c15d8dcea91",
+      "name": "Trigger",
+      "type": "n8n-nodes-base.telegramTrigger",
+      "position": [
+        220,
+        -1120
+      ],
+      "webhookId": "96a20e88-ba8f-4827-b874-b0a9867c59e9",
+      "typeVersion": 1.1,
+      "credentials": {
+        "telegramApi": {
+          "id": "7pqCdPnEXQvRtJUr",
+          "name": "Telegram account"
+        }
+      }
     },
     {
       "parameters": {
-        "values": {
-          "string": [
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 1
+          },
+          "conditions": [
             {
-              "name": "ChatId",
-              "value": "={{ $json[\"message\"].from.id }}"
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              },
+              "leftValue": "={{ $('Trigger').item.json.message.hasOwnProperty('text') }}"
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "updated-if-node",
+      "name": "IF_MessageType",
+      "type": "n8n-nodes-base.if",
+      "position": [
+        480,
+        -1120
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 1
+          },
+          "conditions": [
+            {
+              "operator": {
+                "type": "string",
+                "operation": "startsWith"
+              },
+              "leftValue": "={{ $('Trigger').item.json.message.text }}",
+              "rightValue": "/"
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "71907904-21f3-459c-a445-ca44a432dd36",
+      "name": "Command?",
+      "type": "n8n-nodes-base.if",
+      "position": [
+        720,
+        -1120
+      ],
+      "typeVersion": 2
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 1
+                },
+                "conditions": [
+                  {
+                    "operator": {
+                      "type": "string",
+                      "operation": "contains"
+                    },
+                    "leftValue": "={{ $('Trigger').item.json.message.text }}",
+                    "rightValue": "/help"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "/help"
             },
             {
-              "name": "MessageText",
-              "value": "={{ $json[\"message\"].text }}"
-            }
-          ]
-        }
-      },
-      "id": "set-node",
-      "name": "Set Data",
-      "type": "n8n-nodes-base.set",
-      "typeVersion": 1,
-      "position": [-800, -2740]
-    },
-    {
-      "parameters": {
-        "rules": [
-          {
-            "conditions": [
-              {
-                "value1": "={{ $json[\"MessageText\"] }}",
-                "operation": "contains",
-                "value2": "/command1"
-              }
-            ],
-            "output": "Command 1"
-          },
-          {
-            "conditions": [
-              {
-                "value1": "={{ $json[\"MessageText\"] }}",
-                "operation": "contains",
-                "value2": "/command2"
-              }
-            ],
-            "output": "Command 2"
-          },
-          {
-            "conditions": [
-              {
-                "value1": "={{ $json[\"MessageText\"] }}",
-                "operation": "contains",
-                "value2": "/help"
-              }
-            ],
-            "output": "Help Command"
-          },
-          {
-            "conditions": [
-              {
-                "value1": "={{ $json[\"MessageText\"] }}",
-                "operation": "contains",
-                "value2": "/status"
-              }
-            ],
-            "output": "Status Command"
-          }
-        ]
-      },
-      "id": "switch-commands",
-      "name": "Command Switch",
-      "type": "n8n-nodes-base.switch",
-      "typeVersion": 1,
-      "position": [-400, -2740]
-    },
-    {
-      "parameters": {
-        "chatId": "={{ $json[\"ChatId\"] }}",
-        "text": "Response to Command 1"
-      },
-      "id": "command1-response",
-      "name": "Command 1 Response",
-      "type": "n8n-nodes-base.telegram",
-      "typeVersion": 1,
-      "position": [100, -2840],
-      "credentials": {
-        "telegramApi": {
-          "id": "telegram-account",
-          "name": "Telegram account"
-        }
-      }
-    },
-    {
-      "parameters": {
-        "chatId": "={{ $json[\"ChatId\"] }}",
-        "text": "Response to Command 2"
-      },
-      "id": "command2-response",
-      "name": "Command 2 Response",
-      "type": "n8n-nodes-base.telegram",
-      "typeVersion": 1,
-      "position": [100, -2640],
-      "credentials": {
-        "telegramApi": {
-          "id": "telegram-account",
-          "name": "Telegram account"
-        }
-      }
-    },
-    {
-      "parameters": {
-        "chatId": "={{ $json[\"ChatId\"] }}",
-        "text": "Available commands: /command1, /command2, /help, /status"
-      },
-      "id": "help-command-response",
-      "name": "Help Command Response",
-      "type": "n8n-nodes-base.telegram",
-      "typeVersion": 1,
-      "position": [100, -2440],
-      "credentials": {
-        "telegramApi": {
-          "id": "telegram-account",
-          "name": "Telegram account"
-        }
-      }
-    },
-    {
-      "parameters": {
-        "chatId": "={{ $json[\"ChatId\"] }}",
-        "text": "Bot is running and operational."
-      },
-      "id": "status-command-response",
-      "name": "Status Command Response",
-      "type": "n8n-nodes-base.telegram",
-      "typeVersion": 1,
-      "position": [100, -2240],
-      "credentials": {
-        "telegramApi": {
-          "id": "telegram-account",
-          "name": "Telegram account"
-        }
-      }
-    },
-    {
-      "parameters": {
-        "chatId": "={{ $json[\"ChatId\"] }}",
-        "text": "Unknown Command"
-      },
-      "id": "unknown-command",
-      "name": "Unknown Command Response",
-      "type": "n8n-nodes-base.telegram",
-      "typeVersion": 1,
-      "position": [400, -2740],
-      "credentials": {
-        "telegramApi": {
-          "id": "telegram-account",
-          "name": "Telegram account"
-        }
-      }
-    }
-  ],
-  "connections": {
-    "webhook-node": {
-      "main": [
-        [
-          {
-            "node": "set-node",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "set-node": {
-      "main": [
-        [
-          {
-            "node": "switch-commands",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "switch-commands": {
-      "main": [
-        [
-          {
-            "node": "command1-response",
-            "type": "main",
-            "index": 0
-          }
-        ],
-        [
-          {
-            "node": "command2-response",
-            "type": "main",
-            "index": 0
-          }
-        ],
-        [
-          {
-            "node": "help-command-response",
-            "type": "main",
-            "index": 0
-          }
-        ],
-        [
-          {
-            "node": "status-command-response",
-            "type": "main",
-            "index": 0
-          }
-        ],
-        [
-          {
-            "node": "unknown-command",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    }
-  },
-  "active": true,
-  "settings": {},
-  "id": "telegram-bot-setup"
-}
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 1
+                },
+                "conditions": [
+                  {
+                    "operator": {
+                      "type": "string",
+           
