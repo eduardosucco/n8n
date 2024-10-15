@@ -1,67 +1,430 @@
 {
-  "parameters": {
-    "rules": {
-      "values": [
-        {
-          "conditions": {
-            "options": {
-              "caseSensitive": true,
-              "leftValue": "",
-              "typeValidation": "strict",
-              "version": 1
-            },
-            "conditions": [
-              {
-                "id": "546c81bf-2ee0-46b2-847b-1f92b84efaf3",
-                "operator": {
-                  "type": "string",
-                  "operation": "contains"
-                },
-                "leftValue": "={{ $('Trigger').item.json.message.text }}",
-                "rightValue": "/status"
-              }
-            ],
-            "combinator": "and"
-          },
-          "renameOutput": true,
-          "outputKey": "Status"
-        },
-        {
-          "conditions": {
-            "options": {
-              "caseSensitive": true,
-              "leftValue": "",
-              "typeValidation": "strict",
-              "version": 1
-            },
-            "conditions": [
-              {
-                "id": "546c81bf-2ee0-46b2-847b-1f92b84efaf3",
-                "operator": {
-                  "type": "string",
-                  "operation": "contains"
-                },
-                "leftValue": "={{ $('Trigger').item.json.message.text }}",
-                "rightValue": "/help"
-              }
-            ],
-            "combinator": "and"
-          },
-          "renameOutput": true,
-          "outputKey": "Help"
+  "name": "Telegram bot starter template setup",
+  "nodes": [
+    {
+      "parameters": {
+        "updates": [
+          "*"
+        ],
+        "additionalFields": {}
+      },
+      "id": "5d9cf2ce-4808-4d44-9f0d-2c15d8dcea91",
+      "name": "Trigger",
+      "type": "n8n-nodes-base.telegramTrigger",
+      "typeVersion": 1,
+      "position": [
+        380,
+        240
+      ],
+      "webhookId": "96a20e88-ba8f-4827-b874-b0a9867c59e9",
+      "credentials": {
+        "telegramApi": {
+          "id": "7pqCdPnEXQvRtJUr",
+          "name": "Telegram account"
         }
+      }
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "id": "22fc0669-96f2-4767-9bc2-03644c7ced21",
+      "name": "Global data",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 1,
+      "position": [
+        540,
+        240
       ]
     },
-    "options": {
-      "fallbackOutput": "extra"
+    {
+      "parameters": {
+        "chatId": "={{ $('Trigger').item.json.message.from.id }}",
+        "text": "Photo",
+        "additionalFields": {
+          "appendAttribution": false
+        }
+      },
+      "id": "d5925fd8-abde-45bf-ac3d-22649ecb1f4e",
+      "name": "Telegram1",
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1,
+      "position": [
+        2240,
+        -460
+      ],
+      "credentials": {
+        "telegramApi": {
+          "id": "7pqCdPnEXQvRtJUr",
+          "name": "Telegram account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $('Trigger').item.json.message.from.id }}",
+        "text": "File",
+        "additionalFields": {
+          "appendAttribution": false
+        }
+      },
+      "id": "5dc06f04-26b4-45af-99d6-a06b7c1b936d",
+      "name": "Telegram2",
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1,
+      "position": [
+        2240,
+        -220
+      ],
+      "credentials": {
+        "telegramApi": {
+          "id": "7pqCdPnEXQvRtJUr",
+          "name": "Telegram account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $('Trigger').item.json.message.from.id }}",
+        "text": "Callback",
+        "additionalFields": {
+          "appendAttribution": false
+        }
+      },
+      "id": "d036c602-17bb-45b5-b7b0-331339570cb3",
+      "name": "Telegram3",
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1,
+      "position": [
+        2000,
+        580
+      ],
+      "credentials": {
+        "telegramApi": {
+          "id": "7pqCdPnEXQvRtJUr",
+          "name": "Telegram account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $('Trigger').item.json.message.from.id }}",
+        "text": "Text",
+        "additionalFields": {
+          "appendAttribution": false
+        }
+      },
+      "id": "a86fe429-65df-471b-bdcb-e4765b14f109",
+      "name": "Telegram4",
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1,
+      "position": [
+        2140,
+        -800
+      ],
+      "credentials": {
+        "telegramApi": {
+          "id": "7pqCdPnEXQvRtJUr",
+          "name": "Telegram account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $('Trigger').item.json.message.from.id }}",
+        "text": "Voice",
+        "additionalFields": {
+          "appendAttribution": false
+        }
+      },
+      "id": "a4519088-76c3-427c-95b6-7982814bf8e3",
+      "name": "Telegram5",
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1,
+      "position": [
+        2240,
+        40
+      ],
+      "credentials": {
+        "telegramApi": {
+          "id": "7pqCdPnEXQvRtJUr",
+          "name": "Telegram account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "leftValue": "",
+                  "caseSensitive": true,
+                  "typeValidation": "strict"
+                },
+                "combinator": "and",
+                "conditions": [
+                  {
+                    "id": "360a2e5b-8736-488c-87dc-b5fcbd2b5102",
+                    "operator": {
+                      "type": "boolean",
+                      "operation": "true",
+                      "singleValue": true
+                    },
+                    "leftValue": "={{ $('Trigger').item.json.message.hasOwnProperty('text') }}",
+                    "rightValue": "/"
+                  }
+                ]
+              },
+              "renameOutput": true,
+              "outputKey": "Text"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "leftValue": "",
+                  "caseSensitive": true,
+                  "typeValidation": "strict"
+                },
+                "combinator": "and",
+                "conditions": [
+                  {
+                    "operator": {
+                      "type": "boolean",
+                      "operation": "true",
+                      "singleValue": true
+                    },
+                    "leftValue": "={{ $('Trigger').item.json.message.hasOwnProperty('photo') }}",
+                    "rightValue": ""
+                  }
+                ]
+              },
+              "renameOutput": true,
+              "outputKey": "Photo"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "leftValue": "",
+                  "caseSensitive": true,
+                  "typeValidation": "strict"
+                },
+                "combinator": "and",
+                "conditions": [
+                  {
+                    "id": "eb5a5507-4374-46c9-b8eb-25b36cbe17ee",
+                    "operator": {
+                      "type": "boolean",
+                      "operation": "true",
+                      "singleValue": true
+                    },
+                    "leftValue": "={{ $('Trigger').item.json.message.hasOwnProperty('document') }}",
+                    "rightValue": "2"
+                  }
+                ]
+              },
+              "renameOutput": true,
+              "outputKey": "File"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "leftValue": "",
+                  "caseSensitive": true,
+                  "typeValidation": "strict"
+                },
+                "combinator": "and",
+                "conditions": [
+                  {
+                    "id": "b5a43050-e657-4b56-aa9b-290a94aa8902",
+                    "operator": {
+                      "type": "boolean",
+                      "operation": "true",
+                      "singleValue": true
+                    },
+                    "leftValue": "={{ $('Trigger').item.json.message.hasOwnProperty('voice') }}",
+                    "rightValue": ""
+                  }
+                ]
+              },
+              "renameOutput": true,
+              "outputKey": "Voice"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "0b597db9-d240-4be3-90f3-095117b1c6bc",
+      "name": "Switch_MessageType",
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 1,
+      "position": [
+        1800,
+        -220
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "leftValue": "",
+            "caseSensitive": true,
+            "typeValidation": "strict"
+          },
+          "combinator": "and",
+          "conditions": [
+            {
+              "id": "a2025331-2c2b-4df8-9e23-37035a5c808a",
+              "operator": {
+                "type": "string",
+                "operation": "startsWith"
+              },
+              "leftValue": "={{ $('Trigger').item.json.message.text }}",
+              "rightValue": "/"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "71907904-21f3-459c-a445-ca44a432dd36",
+      "name": "Command?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [
+        1920,
+        -860
+      ]
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 1
+                },
+                "conditions": [
+                  {
+                    "id": "360a2e5b-8736-488c-87dc-b5fcbd2b5102",
+                    "operator": {
+                      "type": "string",
+                      "operation": "contains"
+                    },
+                    "leftValue": "={{ $('Trigger').item.json.message.text }}",
+                    "rightValue": "/command1"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Command 1"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 1
+                },
+                "conditions": [
+                  {
+                    "id": "546c81bf-2ee0-46b2-847b-1f92b84efaf3",
+                    "operator": {
+                      "type": "string",
+                      "operation": "contains"
+                    },
+                    "leftValue": "={{ $('Trigger').item.json.message.text }}",
+                    "rightValue": "/command2"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Command 2"
+            }
+          ]
+        },
+        "options": {
+          "fallbackOutput": "extra"
+        }
+      },
+      "id": "58008f10-7336-4633-ab15-51556e3b53bd",
+      "name": "Switch_Commands",
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 1,
+      "position": [
+        2080,
+        -1380
+      ]
+    }
+  ],
+  "connections": {
+    "Switch": {
+      "main": [
+        [
+          {
+            "node": "Switch_MessageType",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Telegram3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Trigger": {
+      "main": [
+        [
+          {
+            "node": "Global data",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Command?": {
+      "main": [
+        [
+          {
+            "node": "Switch_Commands",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Telegram4",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Telegram3": {
+      "main": [
+        [
+          {
+            "node": "Switch_Commands",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
     }
   },
-  "id": "58008f10-7336-4633-ab15-51556e3b53bd",
-  "name": "Switch_Commands",
-  "type": "n8n-nodes-base.switch",
-  "position": [
-    2080,
-    -1380
-  ],
-  "typeVersion": 3
+  "active": true,
+  "settings": {},
+  "id": "JB7pzFR3eZ3JgSxN"
 }
