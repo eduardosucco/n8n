@@ -59,6 +59,26 @@
               }
             ],
             "output": "Command 2"
+          },
+          {
+            "conditions": [
+              {
+                "value1": "={{ $json[\"MessageText\"] }}",
+                "operation": "contains",
+                "value2": "/help"
+              }
+            ],
+            "output": "Help Command"
+          },
+          {
+            "conditions": [
+              {
+                "value1": "={{ $json[\"MessageText\"] }}",
+                "operation": "contains",
+                "value2": "/status"
+              }
+            ],
+            "output": "Status Command"
           }
         ]
       },
@@ -95,6 +115,40 @@
       "type": "n8n-nodes-base.telegram",
       "typeVersion": 1,
       "position": [100, -2640],
+      "credentials": {
+        "telegramApi": {
+          "id": "telegram-account",
+          "name": "Telegram account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $json[\"ChatId\"] }}",
+        "text": "Available commands: /command1, /command2, /help, /status"
+      },
+      "id": "help-command-response",
+      "name": "Help Command Response",
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1,
+      "position": [100, -2440],
+      "credentials": {
+        "telegramApi": {
+          "id": "telegram-account",
+          "name": "Telegram account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $json[\"ChatId\"] }}",
+        "text": "Bot is running and operational."
+      },
+      "id": "status-command-response",
+      "name": "Status Command Response",
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1,
+      "position": [100, -2240],
       "credentials": {
         "telegramApi": {
           "id": "telegram-account",
@@ -155,6 +209,20 @@
         [
           {
             "node": "command2-response",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "help-command-response",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "status-command-response",
             "type": "main",
             "index": 0
           }
